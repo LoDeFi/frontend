@@ -68,15 +68,15 @@ function get(socketNamespace, requestBody)
 // 	console.log(response.payload.portfolio)
 // })
 
-// get(addressSocket, {
-// 	scope: ['assets'],
-// 	payload: {
-// 		address: '0x7e5ce10826ee167de897d262fcc9976f609ecd2b',
-// 	},
-// }).then(response =>
-// {
-// 	console.log(Object.values(response.payload.assets).filter(x => x.asset.decimals == 0))
-// })
+get(addressSocket, {
+	scope: ['assets'],
+	payload: {
+		address: '0x7e5ce10826ee167de897d262fcc9976f609ecd2b',
+	},
+}).then(response =>
+{
+	console.log(Object.values(response.payload.assets).filter(x => x.asset.decimals == 0))
+})
 
 // get(addressSocket, {
 // 	scope: ['charts'],
@@ -88,24 +88,24 @@ function get(socketNamespace, requestBody)
 // 	console.log(response.payload.charts)
 // })
 
-const assetSocket = {
-	namespace: 'assets',
-	socket: io(`${BASE_URL}/assets`, {
-		transports: ['websocket'],
-		timeout: 60000,
-		query: {
-			api_token:
-				'Demo.ukEVQp6L5vfgxcz4sBke7XvS873GMYHy',
-		},
-	}),
-}
+// const assetSocket = {
+// 	namespace: 'assets',
+// 	socket: io(`${BASE_URL}/assets`, {
+// 		transports: ['websocket'],
+// 		timeout: 60000,
+// 		query: {
+// 			api_token:
+// 				'Demo.ukEVQp6L5vfgxcz4sBke7XvS873GMYHy',
+// 		},
+// 	}),
+// }
 
-get(assetSocket, {
-	scope: ['tokenlists'],
-	payload: {
-		// address: '0x7e5ce10826ee167de897d262fcc9976f609ecd2b',
-	},
-}).then(response =>
-{
-	console.log(response.payload.tokenlists)
-})
+// get(assetSocket, {
+// 	scope: ['tokenlists'],
+// 	payload: {
+// 		// address: '0x7e5ce10826ee167de897d262fcc9976f609ecd2b',
+// 	},
+// }).then(response =>
+// {
+// 	console.log(response.payload.tokenlists)
+// })
