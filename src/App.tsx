@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 import { client } from "defi-sdk"
 import styles from "./App.module.css"
 import { AddressInput } from "./components"
 import { useAddress } from "./hooks/useAddress"
-import { Assets } from "./Assets"
-import { History } from "./History"
+import { AssetsFlatList, AssetsProvider } from "./Assets"
+import { TxHistoryProvider, FlatTxList } from "./History"
+import { RepositoryProvider } from "./RepositoryContext"
+import { LodefiJson } from "./lodefi-types"
+import { LoyaltyProgramCurrentStatus, LoyaltyProgramsFlatList } from "./components/LoyaltyProgramShortInfo"
 
 export const endpoint = "wss://api-staging.zerion.io"
 export const API_TOKEN = "Zerion.0JOY6zZTTw6yl5Cvz9sdmXc7d5AhzVMG"
@@ -22,9 +25,11 @@ client.configure({
 })
 Object.assign(window, { client })
 
-export const App: React.FC = () =>
+export const OldApp: React.FC = () =>
 {
 	const [address, setAddress] = useAddress()
+
+	const [selectedProgram, setSelectedProgram] = useState<LodefiJson>()
 
 	return (
 		<div className={styles.page}>
@@ -32,19 +37,44 @@ export const App: React.FC = () =>
 				<AddressInput onSubmit={setAddress} />
 			</header>
 			{address ? (
-				<section className={styles.grid}>
-					<div className={styles.column}>
-						<h2>Assets</h2>
-						<Assets address={address} />
-					</div>
-					<div className={styles.column}>
-						<h2>History</h2>
-						<History address={address} />
-					</div>
-				</section>
+				<AssetsProvider address={address}>
+					<section className={styles.grid}>
+						<div className={styles.column}>
+							<h2>Loyalty Programs</h2>
+
+							<LoyaltyProgramsFlatList
+								onSelect={setSelectedProgram}
+								selected={selectedProgram}
+							/>
+							{/* <AssetsFlatList /> */}
+						</div>
+						{selectedProgram &&
+							<div className={styles.column}>
+								<h2>Achieved Levels</h2>
+								<LoyaltyProgramCurrentStatus program={selectedProgram} />
+								<TxHistoryProvider
+									address={address}
+									filterAddresses={selectedProgram.tokens.map(x => x.asset)}
+								>
+									<h2>History</h2>
+									<FlatTxList />
+								</TxHistoryProvider>
+							</div>
+						}
+					</section>
+				</AssetsProvider>
 			) : (
 				<section className={styles.noAddress}>No address to watch 🧐</section>
 			)}
 		</div>
+	)
+}
+
+export const App: React.FC = () =>
+{
+	return (
+		<RepositoryProvider>
+			<OldApp></OldApp>
+		</RepositoryProvider>
 	)
 }

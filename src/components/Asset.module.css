@@ -1,12 +1,25 @@
 .asset {
   height: 48px;
-  padding: 12px 0;
+  padding: 12px 10px;
   display: grid;
   width: 100%;
   grid-template-columns: 32px minmax(200px, 1fr) minmax(48px, max-content) minmax(48px, max-content);
 
+  /* padding: 10px; */
+  /* margin-bottom: 20px; */
+	/* padding-left: 10px; */
+	/* padding-right: 10px; */
   column-gap: 8px;
   align-items: center;
+}
+
+.assetselected {
+	background-color: black;
+    color: white;
+    /* padding: 10px; */
+	/* padding-left: 10px; */
+	/* padding-right: 10px; */
+    border-radius: 30px;
 }
 
 .icon {

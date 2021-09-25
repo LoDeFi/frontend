@@ -7,10 +7,10 @@ type AssetProps = {
 	addressAsset: AddressAsset
 }
 
-const getAssetValue = ({ quantity, asset }: AddressAsset) =>
+export const getAssetValue = ({ quantity, asset }: AddressAsset) =>
 	new BigNumber(quantity).shiftedBy(0 - asset.decimals)
 
-const getAssetPrice = ({ quantity, asset }: AddressAsset) =>
+export const getAssetPrice = ({ quantity, asset }: AddressAsset) =>
 {
 	if (asset.price?.value)
 	{
@@ -19,7 +19,7 @@ const getAssetPrice = ({ quantity, asset }: AddressAsset) =>
 	return new BigNumber(0)
 }
 
-const get24hDiff = ({ quantity, asset }: AddressAsset) =>
+export const get24hDiff = ({ quantity, asset }: AddressAsset) =>
 {
 	if (asset.price?.relative_change_24h)
 	{
@@ -29,6 +29,20 @@ const get24hDiff = ({ quantity, asset }: AddressAsset) =>
 	}
 	return 0
 }
+
+export const AssetValue: React.FC<{ value: number | BigNumber, diff: number | BigNumber }> = ({ value: price, diff }) => (
+	<div className={styles.value}>
+		<div className={styles.number}>{`${price.toFixed(
+			2,
+		)}$`}</div>
+		<div
+			className={styles.number}
+			style={{
+				color: (+diff) < 0 ? "#ff4a4a" : "#01a643",
+			}}
+		>{`${diff.toFixed(2)}$`}</div>
+	</div>
+)
 
 export const Asset = ({ addressAsset }: AssetProps) =>
 {
@@ -44,17 +58,10 @@ export const Asset = ({ addressAsset }: AssetProps) =>
 			<span className={styles.number}>{`${getAssetValue(addressAsset).toFixed(
 				2,
 			)}${asset.symbol}`}</span>
-			<div className={styles.value}>
-				<div className={styles.number}>{`${getAssetPrice(addressAsset).toFixed(
-					2,
-				)}$`}</div>
-				<div
-					className={styles.number}
-					style={{
-						color: get24hDiff(addressAsset) < 0 ? "#ff4a4a" : "#01a643",
-					}}
-				>{`${get24hDiff(addressAsset).toFixed(2)}$`}</div>
-			</div>
+			<AssetValue
+				value={getAssetPrice(addressAsset)}
+				diff={get24hDiff(addressAsset)}
+			/>
 		</div>
 	)
 }
