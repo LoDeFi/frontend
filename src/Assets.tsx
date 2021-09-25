@@ -1,31 +1,33 @@
-import React from "react";
-import { useAddressAssets } from "defi-sdk";
-import { Asset } from "./components";
+import React from "react"
+import { useAddressAssets } from "defi-sdk"
+import { Asset } from "./components"
 
-interface AssetsProps {
-  address?: string;
+type AssetsProps = {
+	address?: string
 }
 
-export const Assets = ({ address }: AssetsProps) => {
-  const assets = useAddressAssets(
-    {
-      currency: "USD",
-      address: address || "",
-    },
-    {
-      enabled: Boolean(address),
-    },
-  );
+export const Assets: React.FC<AssetsProps> = ({ address }) =>
+{
+	let assets = useAddressAssets(
+		{
+			currency: "USD",
+			address: address || "",
+		},
+		{
+			enabled: !!address,
+		},
+	)
 
-  console.log(assets)
+	console.log(assets)
 
-  return assets.value ? (
-    <>
-      {Object.entries(assets.value || {})?.map(([code, asset]) => (
-        <Asset key={code} addressAsset={asset} />
-      ))}
-    </>
-  ) : (
-    <div>Loading...</div>
-  );
-};
+	if (!assets.value)
+		return <div>Loading...</div>
+
+	return (
+		<>
+			{Object.entries(assets.value).map(([code, asset]) => (
+				<Asset key={code} addressAsset={asset} />
+			))}
+		</>
+	)
+}

@@ -1,21 +1,23 @@
-import React from "react";
-import { Transaction } from "./components";
-import { useHistory } from "./hooks/useHistory";
+import React from "react"
+import { Transaction } from "./components"
+import { useHistory } from "./hooks/useHistory"
 
-interface HistoryProps {
-  address?: string;
+type HistoryProps = {
+	address?: string
 }
 
-export const History = ({ address }: HistoryProps) => {
-  const transactions = useHistory(address);
+export const History: React.FC<HistoryProps> = ({ address }) =>
+{
+	const txs = useHistory(address)
 
-  return transactions.value ? (
-    <>
-      {(transactions.value || [])?.map(transaction => (
-        <Transaction key={transaction.hash} transaction={transaction} />
-      ))}
-    </>
-  ) : (
-    <div>Loading...</div>
-  );
-};
+	if (!txs.value)
+		return <div>Loading...</div>
+
+	return (
+		<>
+			{txs.value.map(tx => (
+				<Transaction key={tx.hash} transaction={tx} />
+			))}
+		</>
+	)
+}
