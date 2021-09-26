@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js"
 import { AddressAsset } from "defi-sdk"
 import React, { useContext } from "react"
 import { AssetsContext, getHighestAsset, getNextHighestAsset } from "../Assets"
-import { LodefiJson } from "../lodefi-types"
+import { LodefiJson, LodefiJsonToken } from "../lodefi-types"
 import { RepositoryContext } from "../RepositoryContext"
 import { AssetValue, get24hDiff, getAssetPrice } from "./Asset"
 import styles from "./Asset.module.css"
@@ -25,8 +25,8 @@ export const LoyaltyProgramCurrentStatus: React.FC<{ program: LodefiJson }> = ({
 	let assets = React.useContext(AssetsContext)
 
 	if (!program || !assets)
-		return <div>{JSON.stringify(program)}<br/>{JSON.stringify(assets)}</div>
-	
+		return <div>{JSON.stringify(program)}<br />{JSON.stringify(assets)}</div>
+
 	let highestAsset = getHighestAsset(program, assets)
 
 	let nextAsset = getNextHighestAsset(program, assets)
@@ -44,22 +44,60 @@ export const LoyaltyProgramCurrentStatus: React.FC<{ program: LodefiJson }> = ({
 			{nextAsset && <div>
 				<LoyaltyProgramNextLevel lvl={nextAsset} />
 			</div>}
-			{allAssets.map(x => (
-				<div key={x.token.asset}>
-					{x.token.name}
-					{x.asset && <span>Owned: {x.asset.quantity}</span>}
-				</div>
-			))}
+			{allAssets.map(x => <LoyaltyProgramAsset {...x} />)}
 		</>
 	)
 }
+
+export type LoyaltyAssetInfo = {
+	token: LodefiJsonToken
+	asset: AddressAsset | undefined
+}
+
+export const LoyaltyProgramAsset: React.FC<LoyaltyAssetInfo> = ({ token, asset }) =>
+{
+	switch (token.type)
+	{
+		case "points":
+			return <LoyaltyProgramAssetPointsPure
+				name={token.name}
+				amount={asset ? asset.quantity : "0"}
+			/>
+		case "level":
+			return <LoyaltyProgramAssetLevelPure
+				name={token.name}
+				amount={asset ? asset.quantity : "0"}
+				achieved={!!asset && (parseFloat(asset.quantity) > 0)}
+				awardImg={token.imgAward}
+			/>
+	}
+}
+
+type LoyaltyProgramAssetLevelPureProps = {
+	name: string
+	achieved: boolean
+	amount: number | string
+	awardImg?: string
+}
+export const LoyaltyProgramAssetLevelPure: React.FC<LoyaltyProgramAssetLevelPureProps> = ({ name, achieved, amount, awardImg }) => (
+	<div>
+		{name}: {amount}
+	</div>
+)
+
+export const LoyaltyProgramAssetPointsPure: React.FC<{ name: string, amount: string }> = ({ name, amount }) => (
+	<div>
+		{name}:
+		{amount}
+	</div>
+)
 
 export const LoyaltyProgramShortInfo: React.FC<{ program: LodefiJson }> = ({ program }) =>
 {
 	let assets = React.useContext(AssetsContext)
 
 	if (!program || !assets)
-		return <div>{JSON.stringify(program)}<br/>{JSON.stringify(assets)}</div>
+		return <div>{JSON.stringify(program)}<br />{JSON.stringify(assets)}</div>
 
 	let highestAsset = getHighestAsset(program, assets)
 
@@ -72,7 +110,7 @@ export const LoyaltyProgramShortInfo: React.FC<{ program: LodefiJson }> = ({ pro
 	let totalValue = myAssets
 		.map(getAssetPrice)
 		.reduce((acc, cur) => acc.plus(cur), new BigNumber(0))
-	
+
 	let totalChange = myAssets
 		.map(get24hDiff)
 		.reduce((acc: BigNumber, cur) => acc.plus(cur), new BigNumber(0))
@@ -114,7 +152,7 @@ export const LoyaltyProgramsFlatList: React.FC<{ onSelect: (program: LodefiJson)
 
 	if (repo.error)
 		return <div>Error loading programs!</div>
-	
+
 	if (repo.loading || !repo.programs)
 		return <div>Loading programs...</div>
 
@@ -122,18 +160,18 @@ export const LoyaltyProgramsFlatList: React.FC<{ onSelect: (program: LodefiJson)
 
 	return (
 		<>
-		{
-			repo.programs.map(x => 
-				<div
-					key={x.businessName}
-					onClick={e => { e.preventDefault(); onSelect(x) }}
-					className={(x.businessName == selected?.businessName) ? styles.assetselected : ''}
-				>
-					<LoyaltyProgramShortInfo program={x} />
-				</div>
-			)
-		}
+			{
+				repo.programs.map(x =>
+					<div
+						key={x.businessName}
+						onClick={e => { e.preventDefault(); onSelect(x) }}
+						className={(x.businessName == selected?.businessName) ? styles.assetselected : ''}
+					>
+						<LoyaltyProgramShortInfo program={x} />
+					</div>
+				)
+			}
 		</>
 	)
-	
+
 }
