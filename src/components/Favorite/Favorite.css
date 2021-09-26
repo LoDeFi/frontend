@@ -1,0 +1,9 @@
+.Favorite {
+    background-color: skyblue;
+    padding: 20px;
+    text-align: center;
+    font-size: large;
+    border-radius: 30px;
+    color: white;
+    /* margin: 20px; */
+}
