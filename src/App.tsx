@@ -8,6 +8,7 @@ import { TxHistoryProvider, FlatTxList } from "./History"
 import { RepositoryProvider } from "./RepositoryContext"
 import { LodefiJson } from "./lodefi-types"
 import { LoyaltyProgramCurrentStatus, LoyaltyProgramsFlatList } from "./components/LoyaltyProgramShortInfo"
+import Favorite from "./components/Favorite"
 
 export const endpoint = "wss://api-staging.zerion.io"
 export const API_TOKEN = "Zerion.0JOY6zZTTw6yl5Cvz9sdmXc7d5AhzVMG"
@@ -40,13 +41,27 @@ export const OldApp: React.FC = () =>
 				<AssetsProvider address={address}>
 					<section className={styles.grid}>
 						<div className={styles.column}>
-							<h2>Loyalty Programs</h2>
+							<div className={styles.row}>
 
-							<LoyaltyProgramsFlatList
-								onSelect={setSelectedProgram}
-								selected={selectedProgram}
-							/>
-							{/* <AssetsFlatList /> */}
+								<h2>Loyalty Programs</h2>
+
+								<LoyaltyProgramsFlatList
+									onSelect={setSelectedProgram}
+									selected={selectedProgram}
+								/>
+								{/* <AssetsFlatList /> */}
+							</div>
+
+							<div className={styles.row}>
+
+								<h2>Your favorite loyalty</h2>
+
+								<Favorite
+									// onSelect={setSelectedProgram}
+									// selected={selectedProgram}
+								/>
+								{/* <AssetsFlatList /> */}
+							</div>
 						</div>
 						{selectedProgram &&
 							<div className={styles.column}>
