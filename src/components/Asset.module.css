@@ -54,3 +54,19 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+
+
+.CurrentStatus {
+  /* margin: 20px; */
+  padding: 15px;
+  background-color: skyblue;
+  color: white;
+  border-radius: 30px;
+
+}
+
+.Owned {
+  font-size: larger;
+}
+

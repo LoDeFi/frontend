@@ -2,6 +2,7 @@ import React from "react"
 import { Transaction } from "./components"
 import { useHistory } from "./hooks/useHistory"
 import { Transaction as DFTx } from "defi-sdk"
+import './index.css'
 
 type HistoryProps = {
 	address?: string

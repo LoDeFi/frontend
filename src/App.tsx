@@ -39,7 +39,6 @@ Object.assign(window, { client })
 
 export const OldApp: React.FC = () =>
 {
-
 	useEffect(() => {
 		const accounts = loadBlockchainData();
 		setAddress("0x7e5ce10826ee167de897d262fcc9976f609ecd2b");

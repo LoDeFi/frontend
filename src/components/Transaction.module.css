@@ -5,7 +5,11 @@
   width: 100%;
   grid-template-columns: 1fr max-content;
   column-gap: 8px;
+  background-color: skyblue;
   align-items: center;
+  border-radius: 30px;
+  padding-left: 20px;
+  color: white;
 }
 
 .type {
@@ -14,10 +18,11 @@
 
 .date {
   font-size: 9px;
-  color: #71727d;
+  color: white;
 }
 
 .value {
   font-size: 12px;
   font-weight: 500;
+  color: white;
 }
