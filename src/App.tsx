@@ -27,7 +27,7 @@ Object.assign(window, { client })
 
 export const OldApp: React.FC = () =>
 {
-	const [address, setAddress] = useAddress()
+	const [address, setAddress] = useState<string | undefined>("")
 
 	const [selectedProgram, setSelectedProgram] = useState<LodefiJson>()
 
