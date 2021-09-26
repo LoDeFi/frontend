@@ -2,7 +2,7 @@
   height: 48px;
   padding: 12px 10px;
   display: grid;
-  width: 100%;
+  /* width: 100%; */
   grid-template-columns: 32px minmax(200px, 1fr) minmax(48px, max-content) minmax(48px, max-content);
 
   padding: 8px;
