@@ -5,12 +5,16 @@
   width: 100%;
   grid-template-columns: 1fr max-content;
   column-gap: 8px;
-  background-color: skyblue;
   align-items: center;
   border-radius: 30px;
   padding-left: 20px;
-  color: white;
+  border: 2px solid skyblue;    
 }
+
+
+/* .transaction:hover {
+  box-shadow: 0 0 10px 10px skyblue;
+} */
 
 .type {
   font-weight: 500;
@@ -18,11 +22,9 @@
 
 .date {
   font-size: 9px;
-  color: white;
 }
 
 .value {
   font-size: 12px;
   font-weight: 500;
-  color: white;
 }

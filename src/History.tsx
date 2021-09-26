@@ -2,7 +2,6 @@ import React from "react"
 import { Transaction } from "./components"
 import { useHistory } from "./hooks/useHistory"
 import { Transaction as DFTx } from "defi-sdk"
-import './index.css'
 
 type HistoryProps = {
 	address?: string
@@ -35,9 +34,11 @@ export const FlatTxList: React.FC = () =>
 
 	return (
 		<>
-			{txs.map(tx => (
+			{(txs.length)? (txs.map(tx => (
 				<Transaction key={tx.hash} transaction={tx} />
-			))}
+			))) : (<div>
+				There's no transaction yet...
+			</div>)}
 		</>
 	)
 }

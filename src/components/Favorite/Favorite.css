@@ -1,9 +1,14 @@
 .Favorite {
-    background-color: skyblue;
+    /* background-color: skyblue; */
     padding: 20px;
     text-align: center;
     font-size: large;
     border-radius: 30px;
-    color: white;
+    border: 2px solid skyblue;    
+    /* color: white; */
     /* margin: 20px; */
 }
+
+/* .Favorite:hover {
+    box-shadow: 0 0 10px 10px skyblue;
+} */

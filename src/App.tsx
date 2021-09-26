@@ -74,11 +74,7 @@ export const OldApp: React.FC = () =>
 
 								<h2>Your favorite loyalty</h2>
 
-								<Favorite
-									// onSelect={setSelectedProgram}
-									// selected={selectedProgram}
-								/>
-								{/* <AssetsFlatList /> */}
+								<Favorite/>
 							</div>
 						</div>
 						{selectedProgram &&
