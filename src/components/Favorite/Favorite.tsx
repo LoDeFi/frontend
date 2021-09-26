@@ -17,10 +17,6 @@ const Favorite = () => {
         return token.name.length
     }))
     
-
-    // git remote set-url origin https://niksche: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@github.com/LoDeFi/frontend.git
-    git remote add origin https://niksche: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@github.com/niksche/frontend.git
-
     const el = loDefiAssets.find((Asset) => {
         return Asset.name.length == lenghtProper
     })
